@@ -1,6 +1,7 @@
 package fr.isen.boldeskul.androiderestaurant
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -10,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-
 import androidx.compose.ui.Modifier
 import fr.isen.boldeskul.androiderestaurant.ui.theme.AndroidERestaurantTheme
 import androidx.compose.ui.res.painterResource
@@ -18,7 +18,17 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
-class MainActivity : ComponentActivity() {
+enum class DishType{
+    STARTER, MAIN, DESSERT
+}
+
+interface MenuInterface{
+    fun dishPressed(dishType: DishType)
+}
+
+
+
+class HomeActivity : ComponentActivity(), MenuInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -28,48 +38,37 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
-
+                SetupView(this)
                 }
-                SetupView()
-                GreetingPreview()
             }
         }
     }
-    @Composable
-    fun Greeting(name: String, modifier: Modifier = Modifier) {
-        Column {
-                Text(
-                text = "Hello $name!",
-                modifier = modifier
-                )
-            Text(
-                    text = "Hello test",
-                    modifier = modifier
-                )
-        }
+    override fun dishPressed(dishType: DishType){
+        Toast.makeText(this, "Here my toast",  Toast.LENGTH_LONG). show()
 
     }
-    @Preview
-    @Composable
-    fun SetupView(){
-        Column{
-            Image(painterResource(R.drawable.ic_launcher_foreground), null)
-             Button(onClick = { /*TODO*/ }){
-                 Text(stringResource(R.string.menu_starters))
-             }
-             Button(onClick = { /*TODO*/ }){
-                 Text(stringResource(R.string.menu_main))
-             }
-             Button(onClick = { /*TODO*/ }){
-                    Text(stringResource(R.string.menu_dessert))
-                }
+}
+
+
+@Composable
+fun SetupView(menu: MenuInterface){
+    Column{
+        Image(painterResource(R.drawable.ic_launcher_foreground), null)
+        Button(onClick = { menu.dishPressed(DishType.STARTER)}){
+            Text(stringResource(R.string.menu_starters))
+        }
+        Button(onClick = { /*TODO*/ }){
+            Text(stringResource(R.string.menu_main))
+        }
+        Button(onClick = { /*TODO*/ }){
+            Text(stringResource(R.string.menu_dessert))
         }
     }
-    @Composable
-    fun GreetingPreview() {
-        AndroidERestaurantTheme {
-            Greeting("Android")
-        }
+}
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    AndroidERestaurantTheme {
+        SetupView(HomeActivity())
     }
 }
