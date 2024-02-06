@@ -82,7 +82,7 @@ class HomeActivity : ComponentActivity(), MenuInterface {
                                 Image(
                                     painter = painterResource(id = R.drawable.mexicanguy),
                                     contentDescription = "Decorative Image",
-                                    modifier = Modifier.size(150.dp) // Adjust the size accordingly
+                                    modifier = Modifier.size(150.dp)
                                 )
                                 Text(
                                     text = "¡Bienvenido a nuestro restaurante!",
@@ -121,10 +121,10 @@ fun MexicanRestaurantTopApp(){
                 text = "Mexican Restaurant",
                 color = Color.White,
                 style = TextStyle(
-                    fontSize = 24.sp, // Adjust the font size as needed
-                    fontFamily = ralewayFontFamily, // Apply your custom font family
-                    fontWeight = FontWeight.Bold, // Apply bold style if desired
-                    letterSpacing = 0.5.sp // Adjust letter spacing if needed
+                    fontSize = 24.sp,
+                    fontFamily = ralewayFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.5.sp
                 )
             )
         },
@@ -148,23 +148,23 @@ fun TextStyledButton(text: String, onClick: () -> Unit){
     TextButton(
         onClick = onClick,
         modifier = Modifier
-            .height(50.dp) // Adjust the height as needed
-            .fillMaxWidth() // Make the button fill the width of its parent
+            .height(50.dp)
+            .fillMaxWidth()
     ) {
         Text(
-            text = text.toUpperCase(Locale.ROOT), // Set the text to uppercase
+            text = text.toUpperCase(Locale.ROOT),
             color = Color(0xFFFB8C00),
             style = TextStyle(
-                fontWeight = FontWeight.Bold, // Use bold text
-                fontSize = 18.sp, // Keep the font size as is
-                fontFamily = ralewayFontFamily // Your custom font family
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                fontFamily = ralewayFontFamily
             )
         )
     }
     Divider(
-        color = Color(0xFF039BE5), // Adjust the divider color to match your theme
-        thickness = 1.dp, // Adjust the thickness as needed
-        modifier = Modifier.padding(horizontal = 50.dp) // Add horizontal padding
+        color = Color(0xFF039BE5),
+        thickness = 1.dp,
+        modifier = Modifier.padding(horizontal = 50.dp)
     )
 }
 
