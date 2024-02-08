@@ -106,7 +106,13 @@ class HomeActivity : ComponentActivity(), MenuInterface {
         }
     }
     override fun dishPressed(dishType: DishType){
-        Toast.makeText(this, "Here my toast",  Toast.LENGTH_LONG). show()
+        val message = when(dishType){
+            DishType.STARTER -> "Here are our starters"
+            DishType.MAIN -> "Here is our main course"
+            DishType.DESSERT -> "Here is our dessert"
+        }
+
+        Toast.makeText(this, message,  Toast.LENGTH_SHORT). show()
 
     }
 }
