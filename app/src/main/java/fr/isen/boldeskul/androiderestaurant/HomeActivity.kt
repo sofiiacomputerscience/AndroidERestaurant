@@ -1,11 +1,13 @@
 package fr.isen.boldeskul.androiderestaurant
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,27 +18,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.isen.boldeskul.androiderestaurant.ui.theme.AndroidERestaurantTheme
 import androidx.compose.ui.res.painterResource
-import androidx.compose.material3.Button
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-
 import androidx.compose.material3.Scaffold
-
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import fr.isen.boldeskul.androiderestaurant.ui.theme.ralewayFontFamily
 import java.util.Locale
+
+
 
 enum class DishType{
     STARTER, MAIN, DESSERT
@@ -55,7 +52,6 @@ class HomeActivity : ComponentActivity(), MenuInterface {
         super.onCreate(savedInstanceState)
         setContent {
             AndroidERestaurantTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -105,15 +101,34 @@ class HomeActivity : ComponentActivity(), MenuInterface {
             }
         }
     }
+
+    override fun onDestroy() {
+        Log.d("lifecycle", "home ondestroy")
+        super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("lifecycle", "home onresume")
+    }
+
+    override fun onPause() {
+        Log.d("lifecycle", "home onpause")
+        super.onPause()
+    }
+
+
+//
+//    How to Implement: In the dishPressed method, create an Intent to start the new activity.
+//    Add the category name as an extra to the intent using intent.putExtra(name, value), and
+//    then call startActivity(intent) to launch the new activity.
+
+
     override fun dishPressed(dishType: DishType){
-        val message = when(dishType){
-            DishType.STARTER -> "Here are our starters"
-            DishType.MAIN -> "Here is our main course"
-            DishType.DESSERT -> "Here is our dessert"
+        val intent = Intent(this, CategoryActivity::class.java).apply{
+            putExtra(CategoryActivity.CATEGORYNAME, dishType.name)
         }
-
-        Toast.makeText(this, message,  Toast.LENGTH_SHORT). show()
-
+        startActivity(intent)
     }
 }
 

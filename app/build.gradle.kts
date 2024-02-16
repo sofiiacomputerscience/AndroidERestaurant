@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "fr.isen.boldeskul.androiderestaurant"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "fr.isen.boldeskul.androiderestaurant"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -47,12 +47,17 @@ android {
 }
 
 dependencies {
-
+    val nav_version = "2.7.7"
     implementation("androidx.core:core-ktx:1.9.0")
+    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.0")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("com.android.volley:volley:1.2.1")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
