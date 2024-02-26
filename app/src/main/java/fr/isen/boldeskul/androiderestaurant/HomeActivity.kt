@@ -32,11 +32,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import fr.isen.boldeskul.androiderestaurant.ui.theme.ralewayFontFamily
 import java.util.Locale
+import androidx.compose.material3.Divider
+import androidx.compose.material3.TextButton
 
 
 
-enum class DishType{
-    STARTER, MAIN, DESSERT
+enum class DishType {
+    STARTER, MAIN, DESSERT;
+
+    @Composable
+    fun title(): String {
+        return when(this) {
+            STARTER -> stringResource(id = R.string.menu_starters)
+            MAIN -> stringResource(id = R.string.menu_main)
+            DESSERT -> stringResource(id = R.string.menu_dessert)
+        }
+    }
+
+    fun key(): String {
+        return when(this) {
+            STARTER -> "Entrées"
+            MAIN -> "Plats"
+            DESSERT -> "Desserts"
+        }
+    }
+
 }
 
 interface MenuInterface{
@@ -107,6 +127,12 @@ class HomeActivity : ComponentActivity(), MenuInterface {
         super.onDestroy()
     }
 
+    override fun onStop() {
+        Log.d("lifecycle", "home onstop")
+        super.onStop()
+    }
+
+
     override fun onResume() {
         super.onResume()
         Log.d("lifecycle", "home onresume")
@@ -115,6 +141,10 @@ class HomeActivity : ComponentActivity(), MenuInterface {
     override fun onPause() {
         Log.d("lifecycle", "home onpause")
         super.onPause()
+    }
+    override fun onStart() {
+        Log.d("lifecycle", "home onstop")
+        super.onStart()
     }
 
 
@@ -126,7 +156,7 @@ class HomeActivity : ComponentActivity(), MenuInterface {
 
     override fun dishPressed(dishType: DishType){
         val intent = Intent(this, CategoryActivity::class.java).apply{
-            putExtra(CategoryActivity.CATEGORYNAME, dishType.name)
+            putExtra(CategoryActivity.CATEGORYNAME, dishType)
         }
         startActivity(intent)
     }
@@ -215,6 +245,7 @@ fun SetupView(menu: MenuInterface) {
         }
     }
 }
+
 
 
 

@@ -17,6 +17,9 @@ import androidx.core.view.WindowCompat
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import fr.isen.boldeskul.androiderestaurant.R
+import fr.isen.boldeskul.androiderestaurant.ui.theme.AndroidERestaurantTheme
+import fr.isen.boldeskul.androiderestaurant.ui.theme.AndroidERestaurantTheme
+
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
