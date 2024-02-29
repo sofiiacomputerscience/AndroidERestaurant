@@ -41,65 +41,6 @@ import fr.isen.boldeskul.androiderestaurant.basket.BasketActivity
 import fr.isen.boldeskul.androiderestaurant.ui.theme.AndroidERestaurantTheme
 
 
-//
-//
-//class DetailActivity : ComponentActivity() {
-//    @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        val dish = intent.getSerializableExtra(CATEGORY_EXTRA_KEY) as? Dish
-//        setContent {
-//            val context = LocalContext.current
-//            val pagerState = rememberPagerState(pageCount = {
-//                dish?.images?.count() ?: 0
-//            })
-//            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//                TopAppBar(title = { Text(dish?.name ?: "") })
-//
-//                HorizontalPager(
-//                    state = pagerState,
-//                    modifier = Modifier
-//                        .height(250.dp)
-//                        .fillMaxWidth()) { page ->
-//                    AsyncImage(
-//                        model = ImageRequest.Builder(context)
-//                            .data(dish?.images?.get(page))
-//                            .build(),
-//                        placeholder = painterResource(R.drawable.ic_launcher_foreground),
-//                        error = painterResource(R.drawable.ic_launcher_foreground),
-//                        contentDescription = "Dish Image",
-//                        contentScale = ContentScale.Crop,
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(8.dp)
-//                    )
-//                }
-//                Text(
-//                    text = "Ingredients: ${dish?.ingredients?.joinToString { it.name } ?: "No ingredients available"}",
-//                    modifier = Modifier.padding(8.dp)
-//                )
-//                Button(
-//                    onClick = {
-//                        Toast.makeText(context, "Back to the dishes", Toast.LENGTH_SHORT).show()
-//                        (context as? ComponentActivity)?.finish()
-//                    },
-
-//                    modifier = Modifier.padding(16.dp)
-//                )
-//                {
-//                    Text(text = "Back")
-//                }
-//                Spacer(modifier = Modifier.height(20.dp))
-//                QuantitySelector(dish = dish)
-//
-//            }
-//        }
-//    }
-//    companion object {
-//        const val CATEGORY_EXTRA_KEY = "CATEGORY_EXTRA_KEY"
-//    }
-//}
-
 class DetailActivity : ComponentActivity() {
     @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,7 +52,6 @@ class DetailActivity : ComponentActivity() {
                 Scaffold(
                  topBar = {
                        MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
-                           // Navigate to BasketActivity
                            startActivity(Intent(this@DetailActivity, BasketActivity::class.java))
                        })
                    })
@@ -243,17 +183,6 @@ fun QuantitySelector(dish: Dish?,  cartItemCount: MutableState<Int>, onItemAdded
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp))
             }
-
-//            Button(onClick = {
-//                Toast.makeText(context, "Ajoute a mon panier", Toast.LENGTH_SHORT).show()
-//                val intent = Intent(context, BasketActivity::class.java)
-//                context.startActivity(intent)
-//            }) {
-//                Text("Voir mon panier",
-//                    style = MaterialTheme.typography.bodyLarge.copy(
-//                        fontWeight = FontWeight.Bold,
-//                        fontSize = 18.sp))
-//            }
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(

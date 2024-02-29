@@ -60,8 +60,6 @@ class BasketActivity : ComponentActivity() {
 fun BasketView() {
     val context = LocalContext.current
     val basketItems = remember { mutableStateListOf<BasketItem>() }
-
-    // Assuming you have a method to fetch or observe basket items
     basketItems.addAll(Basket.current(context).items)
 
     LazyColumn {

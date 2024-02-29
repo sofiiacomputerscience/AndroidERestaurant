@@ -69,19 +69,11 @@ override fun onCreate(savedInstanceState: Bundle?) {
     setContent {
         AndroidERestaurantTheme {
             val basketItemCount = Basket.itemCount(this@CategoryActivity)
-//            Scaffold(
-//                topBar = {
-//                    MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
-//                        startActivity(Intent(this@CategoryActivity, BasketActivity::class.java))
-//                    })
-//                }
-//            )
             Scaffold(
                 topBar = {  MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
                         startActivity(Intent(this@CategoryActivity, BasketActivity::class.java))
                    })}
             ) { paddingValues ->
-                // Apply the paddingValues to the MenuView to ensure it doesn't overlap with the TopAppBar
                 MenuView(type = type, paddingValues = paddingValues)
             }
         }
@@ -186,14 +178,12 @@ fun postData(type: DishType, category: MutableState<Category?>) {
         { response ->
             Log.d("request", response.toString(2))
             val result = GsonBuilder().create().fromJson(response.toString(), MenuResult::class.java)
-            val filteredResult = result.data.first { categroy -> categroy.name == currentCategory }
+            val filteredResult = result.data.first { category -> category.name == currentCategory }
             category.value = filteredResult
         },
         {
             Log.e("request", it.toString())
         }
     )
-
     queue.add(request)
-
 }

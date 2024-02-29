@@ -161,7 +161,7 @@ fun CustomBadgeIcon(basketItemCount: Int, onBasketClick: () -> Unit) {
                     contentDescription = "Basket",
                     tint = Color.White
                 )
-                CircleBadge(count = basketItemCount)
+                //CircleBadge(count = basketItemCount)
             }
         } else {
             Icon(
@@ -173,21 +173,21 @@ fun CustomBadgeIcon(basketItemCount: Int, onBasketClick: () -> Unit) {
     }
 }
 
-@Composable
-fun CircleBadge(count: Int) {
-    Box(contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .size(18.dp)
-            .clip(CircleShape)
-            .background(Color.Red)) {
-        Text(
-            text = count.toString(),
-            color = Color.White,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
+//@Composable
+//fun CircleBadge(count: Int) {
+//    Box(contentAlignment = Alignment.Center,
+//        modifier = Modifier
+//            .size(18.dp)
+//            .clip(CircleShape)
+//            .background(Color.Red)) {
+//        Text(
+//            text = count.toString(),
+//            color = Color.White,
+//            fontSize = 12.sp,
+//            fontWeight = FontWeight.Bold
+//        )
+//    }
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -285,7 +285,6 @@ fun SetupView(menu: MenuInterface) {
             verticalArrangement = Arrangement.spacedBy(20.dp)
         )
         {
-//        Image(painterResource(R.drawable.ic_launcher_foreground), null)
             TextStyledButton(text = stringResource(R.string.menu_starters)) {
                 menu.dishPressed(DishType.STARTER)
             }
