@@ -1,6 +1,6 @@
 package fr.isen.boldeskul.androiderestaurant.network
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-
-data class Price(val price: String) : Serializable
+data class Price(@SerializedName("price") val price: String): Serializable

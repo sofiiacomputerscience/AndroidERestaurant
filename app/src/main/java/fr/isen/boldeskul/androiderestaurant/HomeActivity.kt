@@ -3,12 +3,12 @@ package fr.isen.boldeskul.androiderestaurant
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 
+
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +22,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.*
 import androidx.compose.foundation.layout.*
+//import androidx.compose.foundation.layout.BoxScopeInstance.align
+//import androidx.compose.foundation.layout.FlowRowScopeInstance.align
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Scaffold
@@ -30,11 +33,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import fr.isen.boldeskul.androiderestaurant.ui.theme.ralewayFontFamily
+//import fr.isen.boldeskul.androiderestaurant.ui.theme.`rale-wayFontFamily`
 import java.util.Locale
 import androidx.compose.material3.Divider
 import androidx.compose.material3.TextButton
-
+import androidx.compose.ui.draw.clip
+import fr.isen.boldeskul.androiderestaurant.basket.Basket
+import fr.isen.boldeskul.androiderestaurant.basket.BasketActivity
 
 
 enum class DishType {
@@ -72,27 +77,37 @@ class HomeActivity : ComponentActivity(), MenuInterface {
         super.onCreate(savedInstanceState)
         setContent {
             AndroidERestaurantTheme {
+
+               // val basketItemCount = Basket.itemCount(this@HomeActivity)
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
+                ){
+//                { Scaffold(
+//                    topBar = {
+//
+//                        MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
+//                            val intent = Intent(this@HomeActivity, BasketActivity::class.java)
+//                            startActivity(intent)
+//                        })
+//                    },
+//                )
+                Scaffold(
+                    topBar = { MexicanRestaurantTopApp() },
                 )
                 {
-                    Scaffold(
-                        topBar = { MexicanRestaurantTopApp() },
-                    ) {
-                        paddingValues ->
+                            paddingValues ->
                         Box(modifier = Modifier
                             .fillMaxSize()
                             .padding(PaddingValues())) {
                             SetupView(this@HomeActivity)
-
-
                             Row(
                                 modifier = Modifier
                                     .align(Alignment.TopEnd)
                                     .padding(top = paddingValues.calculateTopPadding() + 16.dp,
-                                             end = 16.dp,
-                                             start = 16.dp),
+                                        end = 16.dp,
+                                        start = 16.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Image(
@@ -105,7 +120,7 @@ class HomeActivity : ComponentActivity(), MenuInterface {
                                     style = MaterialTheme.typography.bodyLarge.copy(
                                         color = Color(0xFFC62828),
                                         fontWeight = FontWeight.Bold,
-                                        fontFamily = ralewayFontFamily,
+                                       // fontFamily = `rale-wayFontFamily`,
                                         fontSize = 25.sp
                                     ),
                                     modifier = Modifier
@@ -122,37 +137,6 @@ class HomeActivity : ComponentActivity(), MenuInterface {
         }
     }
 
-    override fun onDestroy() {
-        Log.d("lifecycle", "home ondestroy")
-        super.onDestroy()
-    }
-
-    override fun onStop() {
-        Log.d("lifecycle", "home onstop")
-        super.onStop()
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("lifecycle", "home onresume")
-    }
-
-    override fun onPause() {
-        Log.d("lifecycle", "home onpause")
-        super.onPause()
-    }
-    override fun onStart() {
-        Log.d("lifecycle", "home onstop")
-        super.onStart()
-    }
-
-
-//
-//    How to Implement: In the dishPressed method, create an Intent to start the new activity.
-//    Add the category name as an extra to the intent using intent.putExtra(name, value), and
-//    then call startActivity(intent) to launch the new activity.
-
 
     override fun dishPressed(dishType: DishType){
         val intent = Intent(this, CategoryActivity::class.java).apply{
@@ -161,6 +145,67 @@ class HomeActivity : ComponentActivity(), MenuInterface {
         startActivity(intent)
     }
 }
+@Composable
+fun CustomBadgeIcon(basketItemCount: Int, onBasketClick: () -> Unit) {
+    IconButton(onClick = onBasketClick) {
+        if (basketItemCount > 0) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(id = R.drawable.shoppingcart),
+                    contentDescription = "Basket",
+                    tint = Color.White
+                )
+                CircleBadge(count = basketItemCount)
+            }
+        } else {
+            Icon(
+                painter = painterResource(id = R.drawable.shoppingcart),
+                contentDescription = "Basket",
+                tint = Color.White
+            )
+        }
+    }
+}
+
+@Composable
+fun CircleBadge(count: Int) {
+    Box(contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(18.dp)
+            .clip(CircleShape)
+            .background(Color.Red)) {
+        Text(
+            text = count.toString(),
+            color = Color.White,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+//
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun MexicanRestaurantTopApp(basketItemCount: Int, onBasketClick: () -> Unit) {
+//    SmallTopAppBar(
+//        title = {
+//            Text(
+//                text = "Mexican Restaurant",
+//                color = Color.White,
+//                style = MaterialTheme.typography.bodyLarge.copy(
+//                    color = Color(0xFFC62828),
+//                    fontWeight = FontWeight.Bold,
+//                    fontSize = 25.sp
+//                )
+//            )
+//        },
+//        actions = {
+//            CustomBadgeIcon(basketItemCount = basketItemCount, onBasketClick = onBasketClick)
+//        },
+//        colors = TopAppBarDefaults.smallTopAppBarColors(
+//            containerColor = Color(0xFF039BE5)
+//        )
+//    )
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -173,7 +218,7 @@ fun MexicanRestaurantTopApp(){
                 color = Color.White,
                 style = TextStyle(
                     fontSize = 24.sp,
-                    fontFamily = ralewayFontFamily,
+                    //fontFamily = ralewayFontFamily,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 0.5.sp
                 )
@@ -184,6 +229,7 @@ fun MexicanRestaurantTopApp(){
         )
     )
 }
+
 
 @Preview(showBackground = true)
 @Composable
@@ -205,20 +251,20 @@ fun TextStyledButton(text: String, onClick: () -> Unit){
         Text(
             text = text.toUpperCase(Locale.ROOT),
             color = Color(0xFFFB8C00),
-            style = TextStyle(
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = Color(0xFFC62828),
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                fontFamily = ralewayFontFamily
+                fontSize = 25.sp
             )
         )
     }
     Divider(
         color = Color(0xFF039BE5),
-        thickness = 1.dp,
+        thickness = 3.dp,
         modifier = Modifier.padding(horizontal = 50.dp)
-    )
-}
 
+   )
+}
 
 @Composable
 fun SetupView(menu: MenuInterface) {
@@ -245,7 +291,3 @@ fun SetupView(menu: MenuInterface) {
         }
     }
 }
-
-
-
-

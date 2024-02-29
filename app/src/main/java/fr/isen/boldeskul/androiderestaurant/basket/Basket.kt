@@ -1,10 +1,9 @@
 package fr.isen.boldeskul.androiderestaurant.basket
 
-
 import android.content.Context
-
-import com.google.gson.GsonBuilder
+import android.util.Log
 import fr.isen.boldeskul.androiderestaurant.network.Dish
+import com.google.gson.GsonBuilder
 
 class Basket {
     var items: MutableList<BasketItem> = mutableListOf()
@@ -17,6 +16,7 @@ class Basket {
             items.add(BasketItem(count, dish))
         }
         save(context)
+        Log.d("name", "added")
     }
 
     fun delete(item: BasketItem, context: Context) {

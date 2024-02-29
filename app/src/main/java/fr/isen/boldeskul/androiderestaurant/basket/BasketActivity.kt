@@ -1,8 +1,10 @@
 package fr.isen.boldeskul.androiderestaurant.basket
 
+
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -19,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -30,38 +33,64 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-
+import fr.isen.boldeskul.androiderestaurant.HomeActivity
 
 import fr.isen.boldeskul.androiderestaurant.R
+import fr.isen.boldeskul.androiderestaurant.ui.theme.AndroidERestaurantTheme
+
+
 
 class BasketActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BasketView()
+            AndroidERestaurantTheme {
+                BasketView()
+            }
+
+        }
+    }
+}
+@Composable
+fun BasketView() {
+    val context = LocalContext.current
+    val basketItems = remember { mutableStateListOf<BasketItem>() }
+
+    // Assuming you have a method to fetch or observe basket items
+    basketItems.addAll(Basket.current(context).items)
+
+    LazyColumn {
+        items(basketItems) { item ->
+            BasketItemView(item, basketItems)
+        }
+
+        item {
+            Button(
+                onClick = {
+                    context.startActivity(Intent(context, HomeActivity::class.java))
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text("Back to Menu", style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp))
+            }
         }
     }
 }
 
-@Composable fun BasketView() {
-    val context = LocalContext.current
-    val basketItems = remember {
-        mutableStateListOf<BasketItem>()
-    }
-    LazyColumn {
-        items(basketItems) {
-            BasketItemView(it,basketItems)
-        }
-    }
-    basketItems.addAll(Basket.current(context).items)
-}
 
 @Composable fun BasketItemView(item: BasketItem, basketItems: MutableList<BasketItem>) {
+
     Card {
-        val context = LocalContext.current
+       val context = LocalContext.current
         Card(border =  BorderStroke(1.dp, Color.Black),
             modifier = Modifier
                 .padding(8.dp)
@@ -87,22 +116,36 @@ class BasketActivity : ComponentActivity() {
                         .align(alignment = Alignment.CenterVertically)
                         .padding(8.dp)
                 ) {
-                    Text(item.dish.name)
-                    Text("${item.dish.prices.first().price} €")
+                    Text(item.dish.name,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 18.sp
+                    ))
+                    Text("${item.dish.prices.first().price} €",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 18.sp
+                    ))
                 }
 
                 Spacer(Modifier.weight(1f))
                 Text(item.count.toString(),
-                    Modifier.align(alignment = Alignment.CenterVertically))
+                    Modifier.align(alignment = Alignment.CenterVertically),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    ))
                 Button(onClick = {
-                    // delete item and redraw view
                     Basket.current(context).delete(item, context)
                     basketItems.clear()
                     basketItems.addAll(Basket.current(context).items)
                 }) {
-                    Text("X")
+                    Text("X", style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    ))
                 }
+
             }
         }
+
     }
 }
