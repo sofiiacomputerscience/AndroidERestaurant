@@ -2,6 +2,7 @@ package fr.isen.boldeskul.androiderestaurant
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -99,7 +100,6 @@ import fr.isen.boldeskul.androiderestaurant.ui.theme.AndroidERestaurantTheme
 //    }
 //}
 
-
 class DetailActivity : ComponentActivity() {
     @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,21 +107,17 @@ class DetailActivity : ComponentActivity() {
         val dish = intent.getSerializableExtra(CATEGORY_EXTRA_KEY) as? Dish
         setContent {
             AndroidERestaurantTheme {
-               // val basketItemCount = Basket.itemCount(this@DetailActivity)
+                val basketItemCount = Basket.itemCount(this@DetailActivity)
                 Scaffold(
-                    topBar = { MexicanRestaurantTopApp() },
-                )
-//                Scaffold(
-//                    topBar = {
-//                        MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
-//                            // Navigate to BasketActivity
-//                            startActivity(Intent(this@DetailActivity, BasketActivity::class.java))
-//                        })
-//                    }
-//                )
+                 topBar = {
+                       MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
+                           // Navigate to BasketActivity
+                           startActivity(Intent(this@DetailActivity, BasketActivity::class.java))
+                       })
+                   })
                     { paddingValues ->
-                    DetailContentView(dish, paddingValues)
-                }
+                        DetailContentView(dish, paddingValues)
+                    }
             }
         }
     }
@@ -136,6 +132,7 @@ class DetailActivity : ComponentActivity() {
 @Composable
 fun DetailContentView(dish: Dish?, paddingValues: PaddingValues) {
     val context = LocalContext.current
+    val cartItemCount = remember { mutableStateOf(Basket.itemCount(context)) }
 
     val pagerState = rememberPagerState(pageCount = {
         dish?.images?.count() ?: 0
@@ -173,31 +170,36 @@ fun DetailContentView(dish: Dish?, paddingValues: PaddingValues) {
             )
         )
         Spacer(modifier = Modifier.height(16.dp))
-        QuantitySelector(dish = dish)
+
+
+        QuantitySelector(dish = dish, cartItemCount = cartItemCount, onItemAdded = {
+            Toast.makeText(context, "Cart updated. Total items now: ${cartItemCount.value}", Toast.LENGTH_SHORT).show()
+        })
+
+
         Button(
-                    onClick = {
-                        Toast.makeText(context, "Back to the dishes", Toast.LENGTH_SHORT).show()
-                        (context as? ComponentActivity)?.finish()
-                    },
-                    modifier = Modifier.padding(16.dp)
-                )
-                {
-                    Text(text = "Back",
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
-                    ))
-                }
+            onClick = {
+                Toast.makeText(context, "Back to the dishes", Toast.LENGTH_SHORT).show()
+                (context as? ComponentActivity)?.finish()
+            },
+            modifier = Modifier.padding(16.dp)
+        )
+        {
+            Text(text = "Back",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                ))
+        }
     }
 }
 
 @Composable
-fun QuantitySelector(dish: Dish?) {
+fun QuantitySelector(dish: Dish?,  cartItemCount: MutableState<Int>, onItemAdded: () -> Unit) {
     var quantity by remember { mutableStateOf(1) }
     val priceInt = dish?.prices?.first()?.price?.toFloat() ?: 0f
     var totalPrice = priceInt * quantity
     val context = LocalContext.current
-
     Column(modifier = Modifier.padding(16.dp)) {
 
         Row(modifier = Modifier.fillMaxWidth(),
@@ -207,8 +209,8 @@ fun QuantitySelector(dish: Dish?) {
             Button(onClick = { quantity++ }) {
                 Text(text = "+",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp))
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp))
             }
             Text(
                 text = "Quantité: $quantity",
@@ -226,26 +228,32 @@ fun QuantitySelector(dish: Dish?) {
 
         Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
             Button(onClick = {
-                Toast.makeText(context, "Ajoute a mon panier", Toast.LENGTH_SHORT).show()
                 if (dish != null) {
                     Basket.current(context).add(dish, quantity, context)
+                    cartItemCount.value = Basket.itemCount(context)
+                    Toast.makeText(context, "Ajoute a mon panier", Toast.LENGTH_SHORT).show()
+                    onItemAdded()
+                    Log.d("DetailActivity", "Item added to cart. Quantity: $quantity")
+
+
                 }
             }) {
                 Text("Commander",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp))
-            }
-            Button(onClick = {
-                Toast.makeText(context, "Ajoute a mon panier", Toast.LENGTH_SHORT).show()
-                val intent = Intent(context, BasketActivity::class.java)
-                context.startActivity(intent)
-            }) {
-                Text("Voir mon panier",
-                    style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp))
             }
+
+//            Button(onClick = {
+//                Toast.makeText(context, "Ajoute a mon panier", Toast.LENGTH_SHORT).show()
+//                val intent = Intent(context, BasketActivity::class.java)
+//                context.startActivity(intent)
+//            }) {
+//                Text("Voir mon panier",
+//                    style = MaterialTheme.typography.bodyLarge.copy(
+//                        fontWeight = FontWeight.Bold,
+//                        fontSize = 18.sp))
+//            }
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -256,5 +264,6 @@ fun QuantitySelector(dish: Dish?) {
         )
     }
 }
+
 
 

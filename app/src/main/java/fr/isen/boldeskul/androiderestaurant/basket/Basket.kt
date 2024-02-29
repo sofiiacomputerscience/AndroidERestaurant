@@ -19,6 +19,7 @@ class Basket {
         Log.d("name", "added")
     }
 
+
     fun delete(item: BasketItem, context: Context) {
         items.removeAll { item.dish.name == it.dish.name }
         save(context)
@@ -44,5 +45,8 @@ class Basket {
 
         val USER_PREFERENCES_NAME = "USER_PREFERENCES_NAME"
         val BASKET_PREFERENCES_KEY = "BASKET_PREFERENCES_KEY"
+        fun itemCount(context: Context): Int {
+            return current(context).items.sumOf { it.count }
+        }
     }
 }

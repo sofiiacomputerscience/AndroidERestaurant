@@ -68,7 +68,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
     val type = (intent.getSerializableExtra(CATEGORYNAME) as? DishType) ?: DishType.STARTER
     setContent {
         AndroidERestaurantTheme {
-            //val basketItemCount = Basket.itemCount(this@CategoryActivity)
+            val basketItemCount = Basket.itemCount(this@CategoryActivity)
 //            Scaffold(
 //                topBar = {
 //                    MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
@@ -77,7 +77,9 @@ override fun onCreate(savedInstanceState: Bundle?) {
 //                }
 //            )
             Scaffold(
-                topBar = { MexicanRestaurantTopApp() }
+                topBar = {  MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
+                        startActivity(Intent(this@CategoryActivity, BasketActivity::class.java))
+                   })}
             ) { paddingValues ->
                 // Apply the paddingValues to the MenuView to ensure it doesn't overlap with the TopAppBar
                 MenuView(type = type, paddingValues = paddingValues)
