@@ -72,83 +72,83 @@ interface MenuInterface{
 
 
 class HomeActivity : ComponentActivity(), MenuInterface {
-        @OptIn(ExperimentalMaterial3Api::class)
-        @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContent {
-                AndroidERestaurantTheme {
-                    val basketItemCount =
-                        remember { mutableStateOf(Basket.itemCount(this@HomeActivity)) }
+    @OptIn(ExperimentalMaterial3Api::class)
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            AndroidERestaurantTheme {
+                val basketItemCount =
+                    remember { mutableStateOf(Basket.itemCount(this@HomeActivity)) }
 
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        Scaffold(
-                            topBar = {
-                                MexicanRestaurantTopApp(
-                                    basketItemCount = basketItemCount.value,
-                                    onBasketClick = {
-                                        val intent =
-                                            Intent(this@HomeActivity, BasketActivity::class.java)
-                                        startActivity(intent)
-                                    })
-                            },
-                        )
-                        { paddingValues ->
-                            Box(
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Scaffold(
+                        topBar = {
+                            MexicanRestaurantTopApp(
+                                basketItemCount = basketItemCount.value,
+                                onBasketClick = {
+                                    val intent =
+                                        Intent(this@HomeActivity, BasketActivity::class.java)
+                                    startActivity(intent)
+                                })
+                        },
+                    )
+                    { paddingValues ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(PaddingValues())
+                        ) {
+                            SetupView(this@HomeActivity)
+                            Row(
                                 modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(PaddingValues())
+                                    .align(Alignment.TopEnd)
+                                    .padding(
+                                        top = paddingValues.calculateTopPadding() + 16.dp,
+                                        end = 16.dp,
+                                        start = 16.dp
+                                    ),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                SetupView(this@HomeActivity)
-                                Row(
+                                Image(
+                                    painter = painterResource(id = R.drawable.mexicanguy),
+                                    contentDescription = "Decorative Image",
+                                    modifier = Modifier.size(150.dp)
+                                )
+                                Text(
+                                    text = "¡Bienvenido a nuestro restaurante!",
+                                    style = MaterialTheme.typography.bodyLarge.copy(
+                                        color = Color(0xFFC62828),
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 25.sp
+                                    ),
                                     modifier = Modifier
-                                        .align(Alignment.TopEnd)
-                                        .padding(
-                                            top = paddingValues.calculateTopPadding() + 16.dp,
-                                            end = 16.dp,
-                                            start = 16.dp
-                                        ),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.mexicanguy),
-                                        contentDescription = "Decorative Image",
-                                        modifier = Modifier.size(150.dp)
-                                    )
-                                    Text(
-                                        text = "¡Bienvenido a nuestro restaurante!",
-                                        style = MaterialTheme.typography.bodyLarge.copy(
-                                            color = Color(0xFFC62828),
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 25.sp
-                                        ),
-                                        modifier = Modifier
-                                            .padding(start = 20.dp)
+                                        .padding(start = 20.dp)
 
 
-                                    )
-                                }
+                                )
                             }
                         }
-
                     }
+
                 }
             }
-
         }
-
-        override fun dishPressed(dishType: DishType) {
-            val intent = Intent(this, CategoryActivity::class.java).apply {
-                putExtra(CategoryActivity.CATEGORYNAME, dishType)
-            }
-            startActivity(intent)
-        }
-
 
     }
+
+    override fun dishPressed(dishType: DishType) {
+        val intent = Intent(this, CategoryActivity::class.java).apply {
+            putExtra(CategoryActivity.CATEGORYNAME, dishType)
+        }
+        startActivity(intent)
+    }
+
+
+}
 
 
 @Composable
@@ -161,7 +161,7 @@ fun CustomBadgeIcon(basketItemCount: Int, onBasketClick: () -> Unit) {
                     contentDescription = "Basket",
                     tint = Color.White
                 )
-                //CircleBadge(count = basketItemCount)
+                CircleBadge(count = basketItemCount)
             }
         } else {
             Icon(
@@ -173,21 +173,21 @@ fun CustomBadgeIcon(basketItemCount: Int, onBasketClick: () -> Unit) {
     }
 }
 
-//@Composable
-//fun CircleBadge(count: Int) {
-//    Box(contentAlignment = Alignment.Center,
-//        modifier = Modifier
-//            .size(18.dp)
-//            .clip(CircleShape)
-//            .background(Color.Red)) {
-//        Text(
-//            text = count.toString(),
-//            color = Color.White,
-//            fontSize = 12.sp,
-//            fontWeight = FontWeight.Bold
-//        )
-//    }
-//}
+@Composable
+fun CircleBadge(count: Int) {
+    Box(contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(18.dp)
+            .clip(CircleShape)
+            .background(Color.Red)) {
+        Text(
+            text = count.toString(),
+            color = Color.White,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -212,33 +212,6 @@ fun MexicanRestaurantTopApp(basketItemCount: Int, onBasketClick: () -> Unit) {
         )
     )
 }
-
-
-//
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun MexicanRestaurantTopApp(){
-//    SmallTopAppBar(
-//        title = {
-//
-//            Text(
-//                text = "Mexican Restaurant",
-//                color = Color.White,
-//                style = TextStyle(
-//                    fontSize = 24.sp,
-//                    //fontFamily = ralewayFontFamily,
-//                    fontWeight = FontWeight.Bold,
-//                    letterSpacing = 0.5.sp
-//                )
-//            )
-//        },
-//        colors = TopAppBarDefaults.smallTopAppBarColors(
-//            containerColor = Color(0xFF039BE5)
-//        )
-//    )
-//}
-
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -271,7 +244,7 @@ fun TextStyledButton(text: String, onClick: () -> Unit){
         thickness = 3.dp,
         modifier = Modifier.padding(horizontal = 50.dp)
 
-   )
+    )
 }
 
 @Composable

@@ -10,11 +10,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -116,11 +118,11 @@ fun BasketView() {
                 ) {
                     Text(item.dish.name,
                         style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 18.sp
+                        fontSize = 10.sp
                     ))
                     Text("${item.dish.prices.first().price} €",
                         style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 18.sp
+                        fontSize = 10.sp
                     ))
                 }
 
@@ -129,16 +131,18 @@ fun BasketView() {
                     Modifier.align(alignment = Alignment.CenterVertically),
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
+                        fontSize = 10.sp
                     ))
                 Button(onClick = {
                     Basket.current(context).delete(item, context)
                     basketItems.clear()
                     basketItems.addAll(Basket.current(context).items)
-                }) {
+                },modifier = Modifier.size(width = 15.dp, height = 32.dp),
+                    contentPadding = PaddingValues(4.dp)
+                ) {
                     Text("X", style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
+                        fontSize = 10.sp
                     ))
                 }
 

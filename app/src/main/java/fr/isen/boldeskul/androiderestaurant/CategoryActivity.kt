@@ -86,7 +86,6 @@ override fun onCreate(savedInstanceState: Bundle?) {
     }
 }
 
-
 @Composable
 fun MenuView(type: DishType, paddingValues: PaddingValues) {
     val context = LocalContext.current

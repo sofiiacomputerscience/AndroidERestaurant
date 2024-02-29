@@ -41,6 +41,7 @@ import fr.isen.boldeskul.androiderestaurant.basket.BasketActivity
 import fr.isen.boldeskul.androiderestaurant.ui.theme.AndroidERestaurantTheme
 
 
+
 class DetailActivity : ComponentActivity() {
     @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,14 +51,14 @@ class DetailActivity : ComponentActivity() {
             AndroidERestaurantTheme {
                 val basketItemCount = Basket.itemCount(this@DetailActivity)
                 Scaffold(
-                 topBar = {
-                       MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
-                           startActivity(Intent(this@DetailActivity, BasketActivity::class.java))
-                       })
-                   })
-                    { paddingValues ->
-                        DetailContentView(dish, paddingValues)
-                    }
+                    topBar = {
+                        MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
+                            startActivity(Intent(this@DetailActivity, BasketActivity::class.java))
+                        })
+                    })
+                { paddingValues ->
+                    DetailContentView(dish, paddingValues)
+                }
             }
         }
     }
@@ -183,6 +184,7 @@ fun QuantitySelector(dish: Dish?,  cartItemCount: MutableState<Int>, onItemAdded
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp))
             }
+
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -193,6 +195,5 @@ fun QuantitySelector(dish: Dish?,  cartItemCount: MutableState<Int>, onItemAdded
         )
     }
 }
-
 
 
