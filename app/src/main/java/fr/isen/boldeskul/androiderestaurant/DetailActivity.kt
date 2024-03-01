@@ -49,12 +49,12 @@ class DetailActivity : ComponentActivity() {
         val dish = intent.getSerializableExtra(CATEGORY_EXTRA_KEY) as? Dish
         setContent {
             AndroidERestaurantTheme {
-                val basketItemCount = Basket.itemCount(this@DetailActivity)
-//                val basketItemCount =
-//                    remember { mutableStateOf(Basket.itemCount(this@DetailActivity)) }
+               // val basketItemCount = Basket.itemCount(this@DetailActivity)
+                val basketItemCount =
+                    remember { mutableStateOf(Basket.itemCount(this@DetailActivity)) }
                 Scaffold(
                     topBar = {
-                        MexicanRestaurantTopApp(basketItemCount = basketItemCount) {
+                        MexicanRestaurantTopApp(basketItemCount = basketItemCount.value) {
                             startActivity(Intent(this@DetailActivity, BasketActivity::class.java))
                         }
                     })
@@ -175,7 +175,7 @@ fun QuantitySelector(dish: Dish?,  cartItemCount: MutableState<Int>, onItemAdded
                     Basket.current(context).add(dish, quantity, context)
                     cartItemCount.value = Basket.itemCount(context)
                     Toast.makeText(context, "Ajoute a mon panier", Toast.LENGTH_SHORT).show()
-                    //onItemAdded()
+                    onItemAdded()
                     Log.d("DetailActivity", "Item added to cart. Quantity: $quantity")
 
 

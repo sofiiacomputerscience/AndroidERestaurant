@@ -90,7 +90,6 @@ fun BasketView() {
 
 
 @Composable fun BasketItemView(item: BasketItem, basketItems: MutableList<BasketItem>) {
-
     Card {
        val context = LocalContext.current
         Card(border =  BorderStroke(1.dp, Color.Black),
@@ -150,6 +149,5 @@ fun BasketView() {
 
             }
         }
-
     }
 }

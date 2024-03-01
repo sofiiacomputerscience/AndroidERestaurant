@@ -68,11 +68,11 @@ override fun onCreate(savedInstanceState: Bundle?) {
     val type = (intent.getSerializableExtra(CATEGORYNAME) as? DishType) ?: DishType.STARTER
     setContent {
         AndroidERestaurantTheme {
-            val basketItemCount = Basket.itemCount(this@CategoryActivity)
-           // val basketItemCount =
-           //     remember { mutableStateOf(Basket.itemCount(this@CategoryActivity)) }
+           // val basketItemCount = Basket.itemCount(this@CategoryActivity)
+            val basketItemCount =
+                remember { mutableStateOf(Basket.itemCount(this@CategoryActivity)) }
             Scaffold(
-                topBar = {  MexicanRestaurantTopApp(basketItemCount = basketItemCount) {
+                topBar = {  MexicanRestaurantTopApp(basketItemCount = basketItemCount.value) {
                     startActivity(Intent(this@CategoryActivity, BasketActivity::class.java))
                 }
                 }
