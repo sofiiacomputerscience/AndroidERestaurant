@@ -72,7 +72,9 @@ fun BasketView() {
         item {
             Button(
                 onClick = {
-                    context.startActivity(Intent(context, HomeActivity::class.java))
+                    val intent = Intent(context, HomeActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    context.startActivity(intent)
                 },
                 modifier = Modifier
                     .fillMaxWidth()

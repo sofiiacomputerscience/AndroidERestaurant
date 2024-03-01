@@ -69,18 +69,19 @@ override fun onCreate(savedInstanceState: Bundle?) {
     setContent {
         AndroidERestaurantTheme {
             val basketItemCount = Basket.itemCount(this@CategoryActivity)
+           // val basketItemCount =
+           //     remember { mutableStateOf(Basket.itemCount(this@CategoryActivity)) }
             Scaffold(
-                topBar = {  MexicanRestaurantTopApp(basketItemCount = basketItemCount, onBasketClick = {
-                        startActivity(Intent(this@CategoryActivity, BasketActivity::class.java))
-                   })}
+                topBar = {  MexicanRestaurantTopApp(basketItemCount = basketItemCount) {
+                    startActivity(Intent(this@CategoryActivity, BasketActivity::class.java))
+                }
+                }
             ) { paddingValues ->
                 MenuView(type = type, paddingValues = paddingValues)
             }
         }
     }
 }
-
-
     companion object {
         val CATEGORYNAME = "CATEGORYNAME"
     }

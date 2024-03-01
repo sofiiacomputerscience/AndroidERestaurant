@@ -1,11 +1,9 @@
 package fr.isen.boldeskul.androiderestaurant
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
+import android.preference.PreferenceManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -29,15 +27,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import java.util.Locale
 import androidx.compose.material3.Divider
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import fr.isen.boldeskul.androiderestaurant.basket.Basket
 import fr.isen.boldeskul.androiderestaurant.basket.BasketActivity
 
@@ -79,7 +79,7 @@ class HomeActivity : ComponentActivity(), MenuInterface {
         setContent {
             AndroidERestaurantTheme {
                 val basketItemCount =
-                    remember { mutableStateOf(Basket.itemCount(this@HomeActivity)) }
+                    remember { mutableIntStateOf(Basket.itemCount(this@HomeActivity)) }
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -88,12 +88,12 @@ class HomeActivity : ComponentActivity(), MenuInterface {
                     Scaffold(
                         topBar = {
                             MexicanRestaurantTopApp(
-                                basketItemCount = basketItemCount.value,
-                                onBasketClick = {
-                                    val intent =
-                                        Intent(this@HomeActivity, BasketActivity::class.java)
-                                    startActivity(intent)
-                                })
+                                basketItemCount = basketItemCount.value
+                            ) {
+                                val intent =
+                                    Intent(this@HomeActivity, BasketActivity::class.java)
+                                startActivity(intent)
+                            }
                         },
                     )
                     { paddingValues ->
@@ -157,7 +157,7 @@ fun CustomBadgeIcon(basketItemCount: Int, onBasketClick: () -> Unit) {
         if (basketItemCount > 0) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    painter = painterResource(id = R.drawable.shoppingcart),
+                    painter = painterResource(id = R.drawable.shopping_cart),
                     contentDescription = "Basket",
                     tint = Color.White
                 )
@@ -165,7 +165,7 @@ fun CustomBadgeIcon(basketItemCount: Int, onBasketClick: () -> Unit) {
             }
         } else {
             Icon(
-                painter = painterResource(id = R.drawable.shoppingcart),
+                painter = painterResource(id = R.drawable.shopping_cart),
                 contentDescription = "Basket",
                 tint = Color.White
             )
