@@ -112,8 +112,6 @@ fun DetailContentView(dish: Dish?, paddingValues: PaddingValues) {
                 fontSize = 18.sp
             )
         )
-        Spacer(modifier = Modifier.height(16.dp))
-
 
         QuantitySelector(dish = dish, cartItemCount = cartItemCount, onItemAdded = {
             Toast.makeText(context, "Cart updated. Total items now: ${cartItemCount.value}", Toast.LENGTH_SHORT).show()
@@ -167,7 +165,6 @@ fun QuantitySelector(dish: Dish?,  cartItemCount: MutableState<Int>, onItemAdded
                         fontSize = 18.sp))
             }
         }
-        Spacer(modifier = Modifier.height(8.dp))
 
         Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
             Button(onClick = {
@@ -188,7 +185,7 @@ fun QuantitySelector(dish: Dish?,  cartItemCount: MutableState<Int>, onItemAdded
             }
 
         }
-        Spacer(modifier = Modifier.height(8.dp))
+
         Text(
             text = "Total: $totalPrice €",
             fontSize = 16.sp,
