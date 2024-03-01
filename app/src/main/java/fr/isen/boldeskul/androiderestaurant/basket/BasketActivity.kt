@@ -8,7 +8,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -103,8 +102,8 @@ fun BasketView() {
                         .data(item.dish.images.first())
                         .build(),
                     null,
-                    placeholder = painterResource(R.drawable.ic_launcher_foreground),
-                    error = painterResource(R.drawable.ic_launcher_foreground),
+                    placeholder = painterResource(R.drawable.no_image),
+                    error = painterResource(R.drawable.no_image),
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .width(80.dp)

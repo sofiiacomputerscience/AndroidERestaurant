@@ -31,6 +31,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -70,7 +71,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
         AndroidERestaurantTheme {
            // val basketItemCount = Basket.itemCount(this@CategoryActivity)
             val basketItemCount =
-                remember { mutableStateOf(Basket.itemCount(this@CategoryActivity)) }
+                remember { mutableIntStateOf(Basket.itemCount(this@CategoryActivity)) }
             Scaffold(
                 topBar = {  MexicanRestaurantTopApp(basketItemCount = basketItemCount.value) {
                     startActivity(Intent(this@CategoryActivity, BasketActivity::class.java))
@@ -142,8 +143,8 @@ fun MenuView(type: DishType, paddingValues: PaddingValues) {
                     .data(dish.images.first())
                     .build(),
                 null,
-                placeholder = painterResource(R.drawable.ic_launcher_foreground),
-                error = painterResource(R.drawable.ic_launcher_foreground),
+                placeholder = painterResource(R.drawable.no_image),
+                error = painterResource(R.drawable.no_image),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .width(80.dp)

@@ -51,7 +51,7 @@ class DetailActivity : ComponentActivity() {
             AndroidERestaurantTheme {
                // val basketItemCount = Basket.itemCount(this@DetailActivity)
                 val basketItemCount =
-                    remember { mutableStateOf(Basket.itemCount(this@DetailActivity)) }
+                    remember { mutableIntStateOf(Basket.itemCount(this@DetailActivity)) }
                 Scaffold(
                     topBar = {
                         MexicanRestaurantTopApp(basketItemCount = basketItemCount.value) {
@@ -75,7 +75,7 @@ class DetailActivity : ComponentActivity() {
 @Composable
 fun DetailContentView(dish: Dish?, paddingValues: PaddingValues) {
     val context = LocalContext.current
-    val cartItemCount = remember { mutableStateOf(Basket.itemCount(context)) }
+    val cartItemCount = remember { mutableIntStateOf(Basket.itemCount(context)) }
 
     val pagerState = rememberPagerState(pageCount = {
         dish?.images?.count() ?: 0

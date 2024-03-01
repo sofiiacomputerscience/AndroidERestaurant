@@ -40,7 +40,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import fr.isen.boldeskul.androiderestaurant.basket.Basket
 import fr.isen.boldeskul.androiderestaurant.basket.BasketActivity
-
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 
 enum class DishType {
