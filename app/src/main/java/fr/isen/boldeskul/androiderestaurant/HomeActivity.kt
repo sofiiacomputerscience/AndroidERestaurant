@@ -70,8 +70,6 @@ interface MenuInterface{
     fun dishPressed(dishType: DishType)
 }
 
-
-
 class HomeActivity : ComponentActivity(), MenuInterface {
     @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -128,8 +126,6 @@ class HomeActivity : ComponentActivity(), MenuInterface {
                                     ),
                                     modifier = Modifier
                                         .padding(start = 20.dp)
-
-
                                 )
                             }
                         }
@@ -140,15 +136,12 @@ class HomeActivity : ComponentActivity(), MenuInterface {
         }
 
     }
-
     override fun dishPressed(dishType: DishType) {
         val intent = Intent(this, CategoryActivity::class.java).apply {
             putExtra(CategoryActivity.CATEGORYNAME, dishType)
         }
         startActivity(intent)
     }
-
-
 }
 
 
